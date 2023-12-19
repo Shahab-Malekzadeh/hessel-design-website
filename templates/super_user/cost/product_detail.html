@@ -1,0 +1,269 @@
+{% extends 'super_user/shared/base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% load humanize %}
+
+{% block content %}
+  <div class="col col-11 col-md-9 mr-auto mx-md-auto mt-5 pt-5 pl-2 pr-4">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'info' %}info{% elif message.tags == 'success' %}success
+            {% elif message.tags == 'warning' %}warning{% elif message.tags == 'error' %}danger{% endif %}
+          alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <h1 class="text-center mb-4">
+      {{ product.name }}
+    </h1>
+
+    <div class="text-center my-2" style="height: 200px;">
+      {% if product.product_image %}
+        <img src="{{ product.product_image.url }}" alt="" style="height: 200px;">
+      {% else %}
+        <img src="{% static 'base/img/no_img_product.png' %}" alt="" style="height: 200px;">
+      {% endif %}
+    </div>
+
+    <div class="card text-center">
+      <div class="card-header bg-success text-white">
+        مشخصات
+      </div>
+
+      <div class="card-body">
+
+        <a href="{% url 'cost:product_update' product.pk %}"
+           class="btn btn-primary">
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+          ویرایش محصول
+        </a>
+
+        <div class="row">
+          <div class="col-6 h6 text-right">
+            تعداد تولید در سال :
+          </div>
+          <div class="col-6 h6">
+            {{ product.no_prod_per_year|intcomma:False }}
+          </div>
+          <div class="col-6 h6 text-right">
+            هزینه اجزا (تومان) :
+          </div>
+          <div class="col-6 h6">
+            {{ product.components_cost|intcomma:False }}
+          </div>
+          <div class="col-6 h6 text-right">
+            هزینه جاری (تومان) :
+          </div>
+          <div class="col-6 h6">
+            {{ product.current_expense|intcomma:False }}
+          </div>
+          <div class="col-6 h6 text-right">
+            سود (به درصد) :
+          </div>
+          <div class="col-6 h6">
+            {{ product.profit_percent|intcomma:False }} %
+          </div>
+          <div class="col-6 h6 text-right">
+            قیمت نهایی (تومان) :
+          </div>
+          <div class="col-6 h6">
+            {{ product.final_price|intcomma:False }}
+          </div>
+          <div class="col-6 h6 text-right">
+            توضیحات :
+          </div>
+          <div class="col-6 h6">
+            {{ product.description }}
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card-header bg-primary text-white">
+        اجزای سازنده
+      </div>
+
+      <div class="card-body">
+
+        <div class="text-right mb-2">
+          <a href="{% url 'cost:component_create' %}"
+             class="btn btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            افزودن اجزا
+          </a>
+        </div>
+
+        {% if product.component_set.all %}
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+
+              <thead>
+              <tr>
+                <th scope="col">
+                  تصویر
+                </th>
+                <th scope="col">
+                  نام اجزا
+                </th>
+                <th scope="col">
+                  قیمت اجزا
+                </th>
+                <th scope="col">
+                  توضیحات اجزا
+                </th>
+                <th scope="col">
+                  تعداد استفاده شده
+                </th>
+                <th scope="col">
+                  در چه تعداد از محصول
+                </th>
+                <th scope="col">
+                  جمعا
+                </th>
+                <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for component in product.component_set.all %}
+
+                <tr>
+
+                  {% if component.component_image %}
+                    <td>
+                      <img src="{{ component.component_image.url }}" width="100px" alt="">
+                    </td>
+                  {% else %}
+                    <td>
+                      <img src="{% static 'base/img/no_img_component.png' %}" width="100px" alt="">
+                    </td>
+                  {% endif %}
+
+                  <td>{{ component.name }}</td>
+                  <td>{{ component.category.price|intcomma:False }}</td>
+                  <td>{{ component.description }}</td>
+                  <td>{{ component.used_count }}</td>
+                  <td>{{ component.per_product }}</td>
+                  <td>
+                    {% total_cost component.category.price component.per_product component.used_count %}
+                  </td>
+                  <td>
+                    <a href="{% url 'cost:component_update' component.pk %}"
+                       class="btn btn-primary">
+                      <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                  </td>
+                </tr>
+
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+        {% else %}
+          <h2 class="text-center">
+            اجزایی وجود ندارد!
+          </h2>
+        {% endif %}
+
+      </div>
+
+      <div class="card-header bg-info text-white">
+        اجزای سازنده ثابت
+      </div>
+
+      <div class="card-body">
+
+        <div class="text-right mb-2">
+          <a href="{% url 'cost:component_constant_create' %}"
+             class="btn btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            افزودن اجزای ثابت
+          </a>
+        </div>
+
+        {% if product.componentconstant_set.all %}
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+
+              <thead>
+              <tr>
+                <th scope="col">
+                  تصویر
+                </th>
+                <th scope="col">
+                  نام اجزا
+                </th>
+                <th scope="col">
+                  قیمت اجزا
+                </th>
+                <th scope="col">
+                  توضیحات اجزا
+                </th>
+                <th scope="col">
+                  در چه تعداد از محصول
+                </th>
+                <th scope="col">
+                  جمعا
+                </th>
+                <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for component_constant in product.componentconstant_set.all %}
+
+                <tr>
+
+                  {% if component_constant.component_constant_image %}
+                    <td>
+                      <img src="{{ component_constant.component_constant_image.url }}" width="100px" alt="">
+                    </td>
+                  {% else %}
+                    <td>
+                      <img src="{% static 'base/img/no_img_component.png' %}" width="100px" alt="">
+                    </td>
+                  {% endif %}
+
+                  <td>{{ component_constant.name }}</td>
+                  <td>{{ component_constant.price|intcomma:False }}</td>
+                  <td>{{ component_constant.description }}</td>
+                  <td>{{ component_constant.per_product }}</td>
+                  <td>
+                    {% total_cost component_constant.price component_constant.per_product %}
+                  </td>
+                  <td>
+                    <a href="{% url 'cost:component_constant_update' component_constant.pk %}"
+                       class="btn btn-primary">
+                      <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </a>
+                  </td>
+                </tr>
+
+              {% empty %}
+
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+        {% else %}
+          <h2 class="text-center">
+            اجزای ثابتی وجود ندارد!
+          </h2>
+        {% endif %}
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+{% endblock %}

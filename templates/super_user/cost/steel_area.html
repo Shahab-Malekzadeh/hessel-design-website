@@ -1,0 +1,179 @@
+{% extends 'super_user/shared/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+
+  <div class="col col-10 mt-5 mr-auto mx-sm-auto pt-5 pl-3 pr-4">
+
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'info' %}info{% elif message.tags == 'success' %}success
+            {% elif message.tags == 'warning' %}warning{% elif message.tags == 'error' %}danger{% endif %}
+          alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <div class="jumbotron py-4">
+      <h2 class="text-center mb-4">
+        محاسبه مساحت ورق استیل استفاده شده در کفشور
+
+        <button class="btn btn-warning mr-auto" type="button"
+                data-toggle="collapse" data-target="#collapse"
+                aria-expanded="false" aria-controls="collapse">
+          راهنما
+        </button>
+      </h2>
+
+
+      <div class="collapse" id="collapse">
+        <div class="card card-body">
+
+          <p class="lead">
+
+            این فرم برای محاسبه مساحت ورق استیلی است که برای کفشور با
+            ابعادی که وارد می کنید استفاده شده است.
+
+            <br>
+            <br>
+
+            <strong>
+              قسمت رویی دارد؟ :
+            </strong>
+            اگر کفشور مورد نظر قسمت رویی دارد
+            تیک این قسمت را بزنید.
+
+            <br>
+
+            <strong>
+              قسمت زیرین دارد؟ :
+            </strong>
+            اگر کفشور مورد نظر قسمت زیرین دارد
+            تیک این قسمت را بزنید.
+
+            <br>
+            <br>
+
+            <strong>
+              طول (به میلی متر) * :
+            </strong>
+            طول کفشور خود را به میلی متر
+            در اینجا وارد کنید.
+
+            <br>
+
+            <strong>
+              عرض (به میلی متر) * :
+            </strong>
+            عرض کفشور خود را به میلی متر
+            در اینجا وارد کنید.
+
+            <br>
+
+            <strong>
+              عمق (به میلی متر) * :
+            </strong>
+            عمق کفشور خود را به میلی متر
+            در اینجا وارد کنید.
+
+            <br>
+            <br>
+
+            <strong>
+              اختلاف طول قسمت رویی و زیرین (به میلی متر) * :
+            </strong>
+            اختلاف طول قسمت رویی و قسمت زیرین کفشور به میلی متر چقدر است؟
+            آن را در این قسمت وارد کنید. به صورت پیشفرض 12 میلی متر
+            در نظر گرفته شده است.
+
+            <br>
+
+            <strong>
+              اختلاف عمق قسمت رویی و زیرین (به میلی متر) * :
+            </strong>
+            اختلاف عمق قسمت رویی و قسمت زیرین کفشور به میلی متر چقدر است؟
+            آن را در این قسمت وارد کنید. به صورت پیشفرض 8 میلی متر
+            در نظر گرفته شده است.
+
+            <br>
+            <br>
+
+            <strong>
+              نکته :
+            </strong>
+            اگر هیچکدام از تیک های "قسمت رویی دارد؟" و "قسمت زیرین دارد؟"
+            را نزنید هیچ نتیجه ای را نخواهید دید.
+
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+    <form action="{% url 'cost:steel_area' %}" method="post" class="text-right">
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          {{ form.upside_piece|as_crispy_field }}
+          {{ form.downside_piece|as_crispy_field }}
+        </div>
+        <div class="col-6"></div>
+        <div class="col-12 col-sm-6">
+          {{ form.length|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.width|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.height|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.up_down_length_difference|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.up_down_height_difference|as_crispy_field }}
+        </div>
+
+      </div>
+
+      <div class="mb-5">
+        <input class="btn btn-primary" type="submit" value="محاسبه">
+      </div>
+    </form>
+
+    <hr>
+
+    <div class="card text-center mb-5">
+      <div class="card-header bg-success">
+        نتیجه
+      </div>
+      <div class="card-body">
+        {% if request.session.area %}
+          <h3 class="card-title text-center">
+            نتیجه :
+          </h3>
+          <p class="card-text h4 text-center">
+            {{ request.session.area }}
+          </p>
+          <p class="card-text h4 text-center">
+            میلی متر مربع ورق استیل استفاده شده است.
+          </p>
+        {% else %}
+          <h3 class="card-title text-center">
+            فرم را پر نمایید!
+          </h3>
+        {% endif %}
+
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}

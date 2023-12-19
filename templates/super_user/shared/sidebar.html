@@ -1,0 +1,295 @@
+<!-- Sidebar -->
+<div id="sidebar-container" class="sidebar-collapsed">
+  <!-- d-* hidden the Sidebar in smaller devices. Its items can be kept on the Navbar 'Menu' -->
+  <!-- Bootstrap List Group -->
+  <ul class="list-group pr-0">
+    <!-- Separator with title -->
+    <li class="list-group-item sidebar-separator-title text-muted align-items-center menu-collapsed d-none">
+      <small>
+        منو اصلی
+      </small>
+    </li>
+    <!-- /END Separator -->
+    <!-- Menu with submenu -->
+
+    <li>
+      <a href="{% url 'cost:home' %}" class="bg-dark list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-start align-items-center">
+          <span class="fa fa-home ml-3"></span>
+          <span class="menu-collapsed d-none">
+            خانه
+          </span>
+        </div>
+      </a>
+    </li>
+
+    <!-- Separator with title -->
+    <li class="list-group-item sidebar-separator-title text-muted align-items-center menu-collapsed d-none">
+      <small>
+        محاسبه
+      </small>
+    </li>
+    <!-- /END Separator -->
+
+    <li>
+      <a href="{% url 'cost:custom_product_price' %}" class="bg-dark list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-start align-items-center">
+          <span class="fa fa-calculator fa-fw ml-2"></span>
+          <span class="menu-collapsed d-none">
+            قیمت کفشور سفارشی
+          </span>
+        </div>
+      </a>
+    </li>
+
+    <li>
+      <a href="{% url 'cost:custom_multi_lat_price' %}" class="bg-dark list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-start align-items-center">
+          <span class="fa fa-columns fa-fw ml-2"></span>
+          <span class="menu-collapsed d-none">
+            قیمت چند لتی سفارشی
+          </span>
+        </div>
+      </a>
+    </li>
+
+    <li>
+      <a href="{% url 'cost:custom_kafshoor_profile_price' %}" class="bg-dark list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-start align-items-center">
+          <span class="fa fa-align-justify fa-fw ml-2"></span>
+          <span class="menu-collapsed d-none">
+            قیمت پروفیل سفارشی
+          </span>
+        </div>
+      </a>
+    </li>
+
+    <li>
+      <a href="#submenu1" data-toggle="collapse" aria-expanded="false"
+         class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-start align-items-center">
+          <span class="fa fa-dashboard fa-fw ml-2"></span>
+          <span class="menu-collapsed d-none">
+            کفشور
+          </span>
+          <span class="submenu-icon d-none mr-auto"></span>
+        </div>
+      </a>
+      <!-- Submenu content -->
+      <div id='submenu1' class="collapse sidebar-submenu d-none">
+        <a href="{% url 'cost:steel_area' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            مساحت ورق استیل
+          </span>
+        </a>
+        <a href="{% url 'cost:full_steel_area' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            مساحت ورق فول استیل
+          </span>
+        </a>
+        <a href="{% url 'cost:steel_unit_price' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            قیمت هر واحد ورق استیل
+          </span>
+        </a>
+        <a href="{% url 'cost:pipe_unit_price' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            قیمت هر واحد لوله
+          </span>
+        </a>
+        <a href="{% url 'cost:dome_price' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            قیمت هر عدد نکی
+          </span>
+        </a>
+        <a href="{% url 'cost:bender_price' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            قیمت هر عدد خم
+          </span>
+        </a>
+        <a href="{% url 'cost:laser_gas_length' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            طول لیزر و گاز
+          </span>
+        </a>
+        <a href="{% url 'cost:point_grill_price' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            قیمت هر عدد گریل نقطه ای
+          </span>
+        </a>
+        <a href="{% url 'cost:line_grill_price' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            قیمت هر عدد گریل خطی
+          </span>
+        </a>
+      </div>
+    </li>
+
+    <!-- Separator with title -->
+    <li class="list-group-item sidebar-separator-title text-muted align-items-center menu-collapsed d-none">
+      <small>
+        فرم ها
+      </small>
+    </li>
+    <!-- /END Separator -->
+
+    <li>
+      <a href="#submenu2" data-toggle="collapse" aria-expanded="false"
+         class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-start align-items-center">
+          <span class="fa fa-list fa-fw ml-2"></span>
+          <span class="menu-collapsed d-none">
+            دسته بندی اجزا
+          </span>
+          <span class="submenu-icon d-none mr-auto"></span>
+        </div>
+      </a>
+      <!-- Submenu content -->
+      <div id='submenu2' class="collapse sidebar-submenu d-none">
+        <a href="{% url 'cost:component_category_list' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            لیست دسته بندی اجزا
+          </span>
+        </a>
+        <a href="{% url 'cost:component_category_create' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            افزودن دسته بندی اجزا
+          </span>
+        </a>
+      </div>
+    </li>
+
+    <li>
+      <a href="#submenu3" data-toggle="collapse" aria-expanded="false"
+         class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-start align-items-center">
+          <span class="fa fa-product-hunt fa-fw ml-2"></span>
+          <span class="menu-collapsed d-none">
+            محصول
+          </span>
+          <span class="submenu-icon d-none mr-auto"></span>
+        </div>
+      </a>
+      <!-- Submenu content -->
+      <div id='submenu3' class="collapse sidebar-submenu d-none">
+        <a href="{% url 'cost:product_list' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            لیست محصولات
+          </span>
+        </a>
+        <a href="{% url 'cost:product_create' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            افزودن محصول
+          </span>
+        </a>
+      </div>
+    </li>
+
+    <li>
+      <a href="#submenu4" data-toggle="collapse" aria-expanded="false"
+         class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-start align-items-center">
+          <span class="fa fa-th fa-fw ml-2"></span>
+          <span class="menu-collapsed d-none">
+            اجزا
+          </span>
+          <span class="submenu-icon d-none mr-auto"></span>
+        </div>
+      </a>
+      <!-- Submenu content -->
+      <div id='submenu4' class="collapse sidebar-submenu d-none">
+        <a href="{% url 'cost:component_list' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            لیست همه اجزا
+          </span>
+        </a>
+        <a href="{% url 'cost:component_create' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            افزودن اجزا
+          </span>
+        </a>
+      </div>
+    </li>
+
+    <li>
+      <a href="#submenu5" data-toggle="collapse" aria-expanded="false"
+         class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-start align-items-center">
+          <span class="fa fa-th-large fa-fw ml-2"></span>
+          <span class="menu-collapsed d-none">
+            اجزای ثابت
+          </span>
+          <span class="submenu-icon d-none mr-auto"></span>
+        </div>
+      </a>
+      <!-- Submenu content -->
+      <div id='submenu5' class="collapse sidebar-submenu d-none">
+        <a href="{% url 'cost:component_constant_list' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            لیست اجزای ثابت
+          </span>
+        </a>
+        <a href="{% url 'cost:component_constant_create' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            افزودن اجزای ثابت
+          </span>
+        </a>
+      </div>
+    </li>
+
+    <li>
+      <a href="#submenu6" data-toggle="collapse" aria-expanded="false"
+         class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-start align-items-center">
+          <span class="fa fa-usd fa-fw ml-2"></span>
+          <span class="menu-collapsed d-none">
+            هزینه های جاری
+          </span>
+          <span class="submenu-icon d-none mr-auto"></span>
+        </div>
+      </a>
+      <!-- Submenu content -->
+      <div id='submenu6' class="collapse sidebar-submenu d-none">
+        <a href="{% url 'cost:current_expense_list' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            لیست هزینه های جاری
+          </span>
+        </a>
+        <a href="{% url 'cost:current_expense_create' %}" class="list-group-item list-group-item-action text-white">
+          <span class="menu-collapsed d-none">
+            افزودن هزینه های جاری
+          </span>
+        </a>
+      </div>
+    </li>
+
+    <!-- Separator without title -->
+    <li class="list-group-item sidebar-separator menu-collapsed d-none"></li>
+    <!-- /END Separator -->
+    <li>
+      <a href="{% url 'cost:help_page' %}" class="bg-dark list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-start align-items-center">
+          <span class="fa fa-question fa-fw ml-2"></span>
+          <span class="menu-collapsed d-none">
+            راهنما
+          </span>
+        </div>
+      </a>
+    </li>
+    <li class="mb-5">
+      <a href="#" data-toggle="sidebar-collapse"
+         class="bg-dark list-group-item list-group-item-action d-flex align-items-center">
+        <div class="d-flex w-100 justify-content-start align-items-center">
+          <span id="collapse-icon" class="fa fa-2x ml-3"></span>
+          <span id="collapse-text" class="menu-collapsed d-none">
+            بستن
+          </span>
+        </div>
+      </a>
+    </li>
+  </ul><!-- List Group END-->
+</div><!-- sidebar-container END -->
+
+<span style="width: 60px;"></span>
+
+<div class="content d-none"></div>

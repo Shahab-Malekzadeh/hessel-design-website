@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      # - static_volume:/code/static/mediafiles
+      - static_volume:/code/static/staticfiles
+    expose:
+      - 8000
+    env_file:
+      - ./.env
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy   # Wait for the db service to be healthy before starting the web service
+
+  db:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env.db
+    ports:
+      - 5432:5432
+    restart: always
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "hesselde_sign_co_user", "-d", "hesselde_sign_co_db", "-h", "db", "-p", "5432"]
+      interval: 10s  # Check health every 10 seconds
+      timeout: 5s    # Timeout after 5 seconds if health check fails
+      retries: 3     # Retry 3 times before marking as unhealthy
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "1337:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static_volume:/usr/share/nginx/html
+    depends_on:
+      - web
+    # build: ./nginx
+    # volumes:
+    #   - static_volume:/home/app/web/staticfiles
+    #   - media_volume:/home/app/web/mediafiles
+    # ports:
+    #   - 1337:80
+    # depends_on:
+    #   - web  # Make nginx depend on web instead of db
+    # restart: always
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+

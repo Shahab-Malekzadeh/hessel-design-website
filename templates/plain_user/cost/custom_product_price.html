@@ -1,0 +1,361 @@
+{% extends 'plain_user/shared/base.html' %}
+{% load crispy_forms_filters %}
+{% load humanize %}
+
+{% block content %}
+
+  <div class="col col-10 mt-5 mr-auto mx-sm-auto pt-5 pl-3 pr-4">
+
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'info' %}info{% elif message.tags == 'success' %}success
+            {% elif message.tags == 'warning' %}warning{% elif message.tags == 'error' %}danger{% endif %}
+          alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+
+    <div class="jumbotron py-4">
+      <h2 class="text-center mb-4">
+        محاسبه قیمت کفشور سفارشی
+
+        <button class="btn btn-warning mr-auto" type="button"
+                data-toggle="collapse" data-target="#collapse"
+                aria-expanded="false" aria-controls="collapse">
+          راهنما
+        </button>
+      </h2>
+
+      <div class="collapse" id="collapse">
+        <div class="card card-body">
+
+          <p class="lead">
+
+            این فرم برای محاسبه قیمت یک کفشور سفارشی است.
+
+            <br>
+            <br>
+
+            <strong>
+              قسمت رویی دارد؟ :
+            </strong>
+            اگر کفشور مورد نظر قسمت رویی دارد
+            تیک این قسمت را بزنید.
+
+            <br>
+
+            <strong>
+              قسمت زیرین دارد؟ :
+            </strong>
+            اگر کفشور مورد نظر قسمت زیرین دارد
+            تیک این قسمت را بزنید.
+
+            <br>
+            <br>
+
+            <strong>
+              نوع کفشور * :
+            </strong>
+            نوع کفشور خود را در این محل انتخاب کنید.
+
+            <br>
+            <br>
+
+            <strong>
+              طول (به میلی متر) * :
+            </strong>
+            طول کفشور خود را به میلی متر
+            در اینجا وارد کنید.
+
+            <br>
+
+            <strong>
+              عرض (به میلی متر) * :
+            </strong>
+            عرض کفشور خود را به میلی متر
+            در اینجا وارد کنید.
+
+            <br>
+
+            <strong>
+              عمق (به میلی متر) * :
+            </strong>
+            عمق کفشور خود را به میلی متر
+            در اینجا وارد کنید.
+
+            <br>
+            <br>
+
+            <strong>
+              طول لوله (به میلی متر) * :
+            </strong>
+            طول لوله قسمت زیرین کفشور را به میلی متر وارد نمایید.
+            به صورت پیشفرض 30 میلی متر در نظر گرفته شده است.
+
+            <br>
+            <br>
+
+            <strong>
+              اختلاف طول قسمت رویی و زیرین (به میلی متر) * :
+            </strong>
+            اختلاف طول قسمت رویی و قسمت زیرین کفشور به میلی متر چقدر است؟
+            آن را در این قسمت وارد کنید. به صورت پیشفرض 12 میلی متر
+            در نظر گرفته شده است.
+
+            <br>
+
+            <strong>
+              اختلاف عمق قسمت رویی و زیرین (به میلی متر) * :
+            </strong>
+            اختلاف عمق قسمت رویی و قسمت زیرین کفشور به میلی متر چقدر است؟
+            آن را در این قسمت وارد کنید. به صورت پیشفرض 8 میلی متر
+            در نظر گرفته شده است.
+
+            <br>
+            <br>
+
+            <strong>
+              قطر دایره وسط قسمت زیرین (به میلی متر) * :
+            </strong>
+            قطر دایره وسط قسمت زیرین که با لیزر و گاز ایجاد می شود و
+            پس از آن پرس می شود تا لوله در آن جای گیرد را در اینجا
+            وارد نمایید.
+
+            <br>
+            <br>
+
+            <strong>
+              تعداد پیچ استفاده شده * :
+            </strong>
+            تعداد کل پیچ هایی که در این کفشور استفاده شده است را
+            وارد نمایید.
+
+            <br>
+            <br>
+            <strong>
+              تعداد نکی * :
+            </strong>
+            تعداد نکی های این کفشور چه تعداد است. به صورت پیشفرض
+            تعداد 12 عدد نکی در نظر گرفته شده است.
+
+            <br>
+            <br>
+
+            <strong>
+              تعداد شیار چسب قسمت رویی * :
+            </strong>
+            تعداد شیار چسب قسمت رویی را وارد نمایید.
+            به صورت پیش فرض عدد 1 در نظر گرفته شده است.
+
+            <br>
+
+            <strong>
+              طول شیار چسب قسمت رویی (به میلی متر) * :
+            </strong>
+            طول شیار چسب قسمت رویی را وارد نمایید.
+            به صورت پیشفرض 31 میلی متر در نظر گرفته شده است.
+
+            <br>
+            <br>
+
+            <strong>
+              طول اضافه لیزر و گاز (برای لوگو و نوشته ها) (به میلی متر) :
+            </strong>
+            قسمت های لوگو و نوشته هایی که با لیزر و گاز ایجاد می شوند
+            حدودا چند میلی متر هستند. به صورت پیشفرض عدد 0 در نظر
+            گرفته شده است.
+
+            <br>
+            <br>
+
+            <strong>
+              ضریب (برای کفشور های Curve) * :
+            </strong>
+            اگر محصول شما (مثلا کفشور) به صورت صاف و مستقیم بود
+            این ضریب عدد 1 می باشد و به این معنی است که قیمت نهایی در این
+            عدد ضرب می شود و چون عدد 1 است تغییری نمیکند.
+            اما برای محصولات Curve (خمیده) این عدد را به دلخواه خود
+            تغییر بدهید (مثلا 1.2) که این به این معناست که قیمت نهایی
+            در این عدد 1.2 ضرب خواهد شد و بیشتر خواهد شد.
+
+            <br>
+            <br>
+
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+    <form action="{% url 'cost:plain_user_custom_product_price' %}" method="post" class="text-right">
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          {{ form.upside_piece|as_crispy_field }}
+          {{ form.downside_piece|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.kind|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.length|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.width|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.height|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.pipe_height|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.up_down_length_difference|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.up_down_height_difference|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.circle_diameter|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.screw_count|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.dome_count|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.glue_groove_count|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.glue_groove_len|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.additional_length|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.factor|as_crispy_field }}
+        </div>
+
+      </div>
+
+      <div class="mb-5">
+        <input class="btn btn-primary" type="submit" value="محاسبه">
+      </div>
+    </form>
+
+    <hr>
+
+    <div id="scroll-here" class="card col-12 col-md-8 text-center mx-auto mb-5 p-0">
+      <div class="card-header bg-success">
+        نتیجه محاسبه قیمت
+      </div>
+      <div class="card-body">
+
+        {% if error_message %}
+          <h3>
+            {{ error_message }}
+          </h3>
+        {% endif %}
+
+        {% if product %}
+
+          <div class="row">
+            <div class="col-6 h3 text-right">
+              قیمت نهایی (تومان) :
+            </div>
+            <div class="col-6 h3 mb-5">
+              {{ price_with_factor|intcomma:False }}
+            </div>
+            <div class="col-6 h6 text-right">
+              نام :
+            </div>
+            <div class="col-6 h6">
+              {{ product.name }}
+            </div>
+            <div class="col-6 h6 text-right">
+              قیمت بدون ضریب (تومان) :
+            </div>
+            <div class="col-6 h6">
+              {{ product.final_price|intcomma:False }}
+            </div>
+            <div class="col-6 h6 text-right">
+              قیمت نهایی (تومان) :
+            </div>
+            <div class="col-6 h6">
+              {{ price_with_factor|intcomma:False }}
+            </div>
+          </div>
+
+        {% else %}
+
+          <h2 id="the-message" class="text-center">
+            لطفا فرم را پر نمایید.
+          </h2>
+
+        {% endif %}
+
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}
+
+{% block javascript %}
+
+  <script>
+    if (document.querySelector('#the-message') === null) {
+      document.getElementById('scroll-here').scrollIntoView({behavior: "smooth"});
+    }
+    kind = document.querySelector('#id_kind');
+    id_up_down_length_difference = document.querySelector('#id_up_down_length_difference');
+    id_up_down_height_difference = document.querySelector('#id_up_down_height_difference');
+    id_screw_count = document.querySelector('#id_screw_count');
+    id_glue_groove = document.querySelector('#id_glue_groove');
+    id_dome_count = document.querySelector('#id_dome_count');
+    kind.addEventListener("change", () => {
+      console.log('hi ' + kind.value);
+      if (kind.value === 'ceramic') {
+        id_up_down_length_difference.value = 12
+        id_up_down_height_difference.value = 8
+        id_screw_count.value = 4
+        id_glue_groove.value = 31
+        id_dome_count.value = 8
+      } else if (kind.value === 'stone') {
+        id_up_down_length_difference.value = 12
+        id_up_down_height_difference.value = 8
+        id_screw_count.value = 4
+        id_glue_groove.value = 31
+        id_dome_count.value = 8
+      } else if (kind.value === 'full_steel') {
+        id_up_down_length_difference.value = 5
+        id_up_down_height_difference.value = 2
+        id_screw_count.value = 0
+        id_glue_groove.value = 0
+        id_dome_count.value = 0
+      } else if (kind.value === 'line_grill') {
+        id_up_down_length_difference.value = 5
+        id_up_down_height_difference.value = 2
+        id_screw_count.value = 0
+        id_glue_groove.value = 0
+        id_dome_count.value = 0
+      } else if (kind.value === 'point_grill') {
+        id_up_down_length_difference.value = 5
+        id_up_down_height_difference.value = 2
+        id_screw_count.value = 0
+        id_glue_groove.value = 0
+        id_dome_count.value = 0
+      }
+    });
+  </script>
+
+{% endblock %}

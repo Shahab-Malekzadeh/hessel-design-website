@@ -1,0 +1,147 @@
+{% extends 'super_user/shared/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+
+  <div class="col mt-5 pt-5 px-4">
+
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'info' %}info{% elif message.tags == 'success' %}success
+            {% elif message.tags == 'warning' %}warning{% elif message.tags == 'error' %}danger{% endif %}
+          alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if form.errors %}
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>
+            {% for error in form.non_field_errors %}
+              {{ error|escape }}
+            {% endfor %}
+          </strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    <div class="jumbotron py-4">
+      <h2 class="text-center mb-4">
+        فرم اجزای ثابت
+
+        <button class="btn btn-warning mr-auto" type="button"
+                data-toggle="collapse" data-target="#collapse"
+                aria-expanded="false" aria-controls="collapse">
+          راهنما
+        </button>
+      </h2>
+
+      <div class="collapse" id="collapse">
+        <div class="card card-body">
+
+          <p class="lead">
+
+            این فرم برای ایجاد یک جزء ثابت (منظور قیمت ثابت است)
+            یا تغییر یک جزء ثابت است.
+
+            <br>
+            <br>
+
+            <strong>
+              تصویر این جزء ثابت :
+            </strong>
+            در این قسمت تصویر این جزء ثابت محصول خود را انتخاب نمایید.
+            در صورتی که هیچ عکسی انتخاب نکنید یک عکس پیش فرض انتخاب می شود.
+
+            <br>
+            <br>
+
+            <strong>
+              نام * :
+            </strong>
+            در این قسمت نام این جزء ثابت را وارد نمایید.
+
+            <br>
+            <br>
+
+            <strong>
+              برای چه محصولی است * :
+            </strong>
+            مشخص کنید که این جزء ثابت برای چه محصولی است.
+
+            <br>
+            <br>
+
+            <strong>
+              قیمت :
+            </strong>
+            قیمت این جزء ثابت را وارد نمایید.
+
+            <br>
+            <br>
+
+            <strong>
+              برای چه تعداد از محصول انتخاب شده :
+            </strong>
+            قیمتی که وارد کردید به ازای چند عدد از محصول انتخاب شده است.
+
+            <br>
+            <br>
+
+            <strong>
+              توضیحات :
+            </strong>
+            در این قسمت می توانید به اختیار خود توضیحاتی برای این
+            جزء ثابت وارد نمایید.
+
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+    <form action="{% url 'cost:component_constant_create' %}" enctype="multipart/form-data"
+          method="post" class="text-right">
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col-12 col-sm-6 my-3">
+          {{ form.component_constant_image|as_crispy_field }}
+        </div>
+        <div class="col-6"></div>
+        <div class="col-12 col-sm-6">
+          {{ form.name|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.product|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.price|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.per_product|as_crispy_field }}
+        </div>
+        <div class="col-12">
+          {{ form.description|as_crispy_field }}
+        </div>
+
+      </div>
+
+      <div class="mb-5">
+        <input class="btn btn-primary" type="submit" value="افزودن">
+      </div>
+    </form>
+
+  </div>
+
+{% endblock %}

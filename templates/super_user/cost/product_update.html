@@ -1,0 +1,178 @@
+{% extends 'super_user/shared/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+
+  <div class="col mt-5 pt-5 px-4">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'info' %}info{% elif message.tags == 'success' %}success
+            {% elif message.tags == 'warning' %}warning{% elif message.tags == 'error' %}danger{% endif %}
+          alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if form.errors %}
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>
+            {% for error in form.non_field_errors %}
+              {{ error|escape }}
+            {% endfor %}
+          </strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    <div class="jumbotron py-4">
+      <h2 class="text-center mb-4">
+        فرم محصولات
+
+        <button class="btn btn-warning mr-auto" type="button"
+                data-toggle="collapse" data-target="#collapse"
+                aria-expanded="false" aria-controls="collapse">
+          راهنما
+        </button>
+      </h2>
+
+      <div class="collapse" id="collapse">
+        <div class="card card-body">
+
+          <p class="lead">
+
+            این فرم برای ایجاد یک محصول جدید و یا تغییر یک محصول است.
+
+            <br>
+            <br>
+
+            <strong>
+              تصویر محصول :
+            </strong>
+            در این قسمت تصویر محصول خود را انتخاب نمایید.
+            در صورتی که هیچ عکسی انتخاب نکنید یک عکس پیش فرض انتخاب می شود.
+
+            <br>
+            <br>
+
+            <strong>
+              نام محصول * :
+            </strong>
+            در این قسمت نام محصول خود را وارد نمایید.
+
+            <br>
+            <br>
+
+            <strong>
+              چه تعداد از این محصول در سال تولید می شود :
+            </strong>
+            در این قسمت مشخص نمایید چه تعداد از این محصول
+            به صورت سالیانه در کارگاه تولید می شود.
+
+            <br>
+            <br>
+
+            <strong>
+              هزینه ی اجزای تشکیل شده (به تومان) :
+            </strong>
+            هزینه ی اجزای تشکیل شده ی یک محصول در این قسمت قرار دارد.
+            شما نیازی ندارید که این قسمت را پر نمایید. سیستم به صورت
+            اتوماتیک هزینه ی اجزای این محصول را برای شما محاسبه می کند.
+
+            <br>
+            <br>
+
+            <strong>
+              هزینه های جاری برای این محصول (به تومان) :
+            </strong>
+            در این قسمت هزینه های جاری برای این محصول محاسبه می شود.
+            شما نیازی ندارید که این قسمت را پر نمایید. سیستم به صورت
+            اتوماتیک هزینه جاری این محصول را برای شما محاسبه می کند.
+
+            <br>
+            <br>
+
+            <strong>
+              سود این محصول ( به درصد % ) :
+            </strong>
+            در این قسمت سود مورد نظرتان را برای این محصول وارد نمایید.
+            حاصل جمع اجزای تشکیل دهنده محصول به علاوه ی هزینه ی جاری
+            این محصول در این سود ضرب می شود و قیمت نهایی محاسبه می شود.
+
+            <br>
+            <br>
+
+            <strong>
+              قیمت نهایی (به تومان) :
+            </strong>
+            حاصل جمع اجزای تشکیل دهنده محصول به علاوه ی هزینه ی جاری
+            این محصول در سود ضرب می شود و قیمت نهایی محاسبه می شود.
+
+            <br>
+            <br>
+
+            <strong>
+              توضیحات محصول :
+            </strong>
+            در این قسمت توضیحاتی اختیاری برای محصول خود وارد نمایید.
+
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+    <form action="{% url 'cost:product_update' pk %}" enctype="multipart/form-data"
+          method="post" class="text-right">
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col-12 col-sm-6 my-3">
+          {{ form.product_image|as_crispy_field }}
+        </div>
+        <div class="col-6"></div>
+        <div class="col-12 col-sm-6">
+          {{ form.name|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.no_prod_per_year|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.components_cost|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.current_expense|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.profit_percent|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.final_price|as_crispy_field }}
+        </div>
+        <div class="col-12">
+          {{ form.description|as_crispy_field }}
+        </div>
+
+      </div>
+
+      <div class="mb-5">
+        <input class="btn btn-primary" type="submit" value="ویرایش">
+
+        <a href="{% url 'cost:product_delete' pk %}" class="btn btn-danger">
+          حذف
+        </a>
+      </div>
+    </form>
+
+  </div>
+
+{% endblock %}

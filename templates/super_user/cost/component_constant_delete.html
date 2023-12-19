@@ -1,0 +1,32 @@
+{% extends 'super_user/shared/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+
+  <div class="col mt-5 pt-5 px-4">
+
+    <div class="card text-center">
+      <div class="card-header text-white bg-danger">
+        تایید حذف
+      </div>
+      <div class="card-body">
+        <p class="card-text text-center">
+          آیا از حذف
+          « {{ component_constant.name }} »
+          برای محصول
+          « {{ component_constant.product }} »
+          اطمینان دارید؟
+        </p>
+        <form action="{% url 'cost:component_constant_delete' pk %}" method="post" class="text-center">
+          {% csrf_token %}
+          <input class="btn btn-danger" type="submit" value="تایید حذف">
+          <a href="{% url 'cost:component_constant_update' pk %}" class="btn btn-info">
+            بازگشت
+          </a>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}

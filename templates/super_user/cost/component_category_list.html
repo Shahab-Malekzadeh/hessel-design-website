@@ -1,0 +1,72 @@
+{% extends 'super_user/shared/base.html' %}
+{% load crispy_forms_filters %}
+{% load humanize %}
+
+{% block content %}
+
+  <div class="col col-10 mt-5 mr-auto mx-sm-auto pt-5 pl-3 pr-4">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'info' %}info{% elif message.tags == 'success' %}success
+            {% elif message.tags == 'warning' %}warning{% elif message.tags == 'error' %}danger{% endif %}
+          alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <h2 class="text-center mb-4">
+      لیست دسته بندی اجزا
+    </h2>
+
+    <div class="text-right my-4">
+      <a href="{% url 'cost:component_category_create' %}"
+         class="btn btn-success btn-lg">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+          افزودن دسته بندی اجزا
+      </a>
+    </div>
+
+    <div class="table-responsive text-right">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>
+            نام
+          </th>
+          <th>
+            قیمت
+          </th>
+          <th>
+            توضیح
+          </th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for component_category in component_categories %}
+          <tr>
+            <td>{{ component_category.name }}</td>
+            <td>{{ component_category.price|intcomma:False }}</td>
+            <td>{{ component_category.description }}</td>
+            <td>
+              <a href="{% url 'cost:component_category_update' component_category.pk %}" class="btn btn-primary">
+                ویرایش
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+
+{% endblock %}

@@ -1,0 +1,164 @@
+@import url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css');
+
+@font-face {
+  font-family: Vazir;
+  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.eot');
+  src: url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.eot?#iefix') format('embedded-opentype'),
+  url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.woff2') format('woff2'),
+  url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.woff') format('woff'),
+  url('https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.ttf') format('truetype');
+  font-weight: normal;
+}
+
+html {
+  overflow: hidden;
+}
+
+html, body {
+  position: relative;
+}
+
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+html, body, .content {
+  font-family: vazir;
+  height: 100%;
+  direction: rtl;
+}
+
+p, h1, h2, h3, h4, h5, h6,
+#submenu1, #submenu2, #submenu3, #submenu4, #submenu5, #submenu6 {
+  text-align: right;
+}
+
+.card .h6 {
+  font-size: 14px !important;
+}
+
+#body-row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+#sidebar-container {
+  position: fixed;
+  height: 100%;
+  background-color: #333;
+  padding: 56px 0 0;
+  z-index: 1000;
+  overflow-y: auto;
+  transition: all .3s ease;
+}
+
+/* Scrollbar */
+/* ====================================================================== */
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  /*background: #383838;*/
+  background-color: #343a40;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #585858;
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px #a5a5a5;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #686868;
+}
+
+/* Sidebar sizes when expanded and expanded */
+.sidebar-expanded {
+  width: 230px;
+}
+
+.sidebar-collapsed {
+  width: 60px;
+}
+
+/* Menu item*/
+#sidebar-container .list-group a {
+  height: 50px;
+  color: white;
+}
+
+/* Submenu item*/
+#sidebar-container .list-group .sidebar-submenu a {
+  height: 45px;
+  padding-left: 30px;
+}
+
+.sidebar-submenu {
+  font-size: 0.9rem;
+}
+
+/* Separators */
+.sidebar-separator-title {
+  background-color: #333;
+  height: 35px;
+}
+
+.sidebar-separator {
+  background-color: #333;
+  height: 25px;
+}
+
+.list-group-item-action {
+  background-color: #262b2f;
+}
+
+.list-group-item-action:hover {
+  background-color: #1D2124;
+}
+
+/* Closed submenu icon */
+#sidebar-container .list-group .list-group-item[aria-expanded="false"] .submenu-icon::after {
+  content: " \f0d7";
+  font-family: FontAwesome;
+  display: inline;
+  text-align: right;
+  padding-right: 10px;
+}
+
+/* Opened submenu icon */
+#sidebar-container .list-group .list-group-item[aria-expanded="true"] .submenu-icon::after {
+  content: " \f0d9";
+  font-family: FontAwesome;
+  display: inline;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.masked {
+  width: 100%;
+  height: 100%;
+  position: fixed !important;
+  z-index: 999;
+  background-color: #00000055;
+}
+
+/* Checkboxes */
+/* ====================================================================== */
+#div_id_upside_piece label, #div_id_downside_piece label {
+  margin-right: 20px;
+}
+
+.tab-link {
+  color: darkgray !important;
+}
+
+.tab-link.active {
+  color: gray !important;
+}

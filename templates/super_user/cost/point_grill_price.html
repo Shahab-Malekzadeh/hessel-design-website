@@ -1,0 +1,107 @@
+{% extends 'super_user/shared/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+
+  <div class="col col-10 mt-5 mr-auto mx-sm-auto pt-5 pl-3 pr-4">
+
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'info' %}info{% elif message.tags == 'success' %}success
+            {% elif message.tags == 'warning' %}warning{% elif message.tags == 'error' %}danger{% endif %}
+          alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+
+    <div class="jumbotron py-4">
+      <h2 class="text-center mb-4">
+        محاسبه قیمت هر دانه گریل نقطه ای
+
+        <button class="btn btn-warning mr-auto" type="button"
+                data-toggle="collapse" data-target="#collapse"
+                aria-expanded="false" aria-controls="collapse">
+          راهنما
+        </button>
+      </h2>
+
+      <div class="collapse" id="collapse">
+        <div class="card card-body">
+
+          <p class="lead">
+
+            این فرم برای محاسبه قیمت هر عدد گریل نقطه ای است.
+            هر عدد گریل نقطه ای یک مربع به طول 7 میلی متر است
+            که با لیزر و گاز برش داده می شود.
+
+            <br>
+            <br>
+
+            <strong>
+              طول نقطه گریل (به میلی متر) * :
+            </strong>
+            در این قسمت طول نقطه گریل را وارد می نمایید.
+            توجه کنید که طول نقطه گریل معمولا 7 میلی متر است،
+            پس در اینجا عدد 7 را وارد نمایید.
+            با این عدد محیط نقطه گریل محاسبه شده و در قیمت
+            لیزر و گاز به ازای هر میلی متر ضرب می شود.
+
+            <br>
+
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+    <form action="{% url 'cost:point_grill_price' %}" method="post" class="text-right">
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          {{ form.length|as_crispy_field }}
+        </div>
+
+      </div>
+
+      <div class="mb-5">
+        <input class="btn btn-primary" type="submit" value="محاسبه">
+      </div>
+    </form>
+
+    <hr>
+
+    <div class="card text-center mb-5">
+      <div class="card-header bg-success">
+        نتیجه
+      </div>
+      <div class="card-body">
+        {% if request.session.point_grill_cost %}
+          <h3 class="card-title text-center">
+            نتیجه :
+          </h3>
+          <p class="card-text h4 text-center">
+            {{ request.session.point_grill_cost }}
+          </p>
+          <p class="card-text h4 text-center">
+            تومان قیمت هر دانه ی مربعی شکل گریل نقطه ای است.
+          </p>
+        {% else %}
+          <h3 class="card-title text-center">
+            فرم را پر نمایید!
+          </h3>
+        {% endif %}
+
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}

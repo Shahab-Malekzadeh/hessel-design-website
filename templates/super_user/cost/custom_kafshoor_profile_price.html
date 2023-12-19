@@ -1,0 +1,264 @@
+{% extends 'super_user/shared/base.html' %}
+{% load crispy_forms_filters %}
+{% load humanize %}
+
+{% block content %}
+
+  <div class="col col-10 mt-5 mr-auto mx-sm-auto pt-5 pl-3 pr-4">
+
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'info' %}info{% elif message.tags == 'success' %}success
+            {% elif message.tags == 'warning' %}warning{% elif message.tags == 'error' %}danger{% endif %}
+          alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+
+    <div class="jumbotron py-4">
+      <h2 class="text-center mb-4">
+        محاسبه قیمت کفشور پروفیلی سفارشی
+
+        <button class="btn btn-warning mr-auto" type="button"
+                data-toggle="collapse" data-target="#collapse"
+                aria-expanded="false" aria-controls="collapse">
+          راهنما
+        </button>
+      </h2>
+
+      <div class="collapse" id="collapse">
+        <div class="card card-body">
+
+          <p class="lead">
+
+            این فرم برای محاسبه قیمت یک کفشور پروفیلی سفارشی است.
+
+            <br>
+            <br>
+
+            <strong>
+              تعداد پروفیل * :
+            </strong>
+            تعداد پروفیل ها را وارد نمایید.
+
+            <br>
+            <br>
+
+            <strong>
+              طول هرکدام از پروفیل ها (به میلی متر) * :
+            </strong>
+            طول هرکدام از پروفیل ها را به میلی متر وارد نمایید.
+
+            <br>
+            <br>
+
+            <strong>
+              عرض هرکدام از پروفیل ها (به میلی متر) * :
+            </strong>
+            عرض هرکدام از پروفیل ها را به میلی متر وارد نمایید.
+
+            <br>
+            <br>
+
+            <strong>
+              عمق هرکدام از پروفیل ها (به میلی متر) * :
+            </strong>
+            عمق هرکدام از پروفیل ها را به میلی متر وارد نمایید.
+
+            <br>
+            <br>
+
+            <strong>
+              تعداد جک تنظیم * :
+            </strong>
+            تعداد جک های تنظیم این پروفیل را وارد نمایید.
+
+            <br>
+            <br>
+
+            <strong>
+              تعداد دیوایدر * :
+            </strong>
+            این پروفیل چه تعداد دیوایدر معمولی دارد.
+
+            <br>
+            <br>
+
+            <strong>
+              عرض دیوایدر (به میلی متر) * :
+            </strong>
+            عرض هرکدام از این دیوایدرها به میلی متر چقدر است.
+
+            <br>
+            <br>
+
+            <strong>
+              تعداد پیچ * :
+            </strong>
+            این پروفیل چه تعداد پیچ تنظیم دارد. آن را در این مکان وارد نمایید.
+
+            <br>
+            <br>
+
+            <strong>
+              سود این محصول (به درصد) * :
+            </strong>
+            چه میزان سود به درصد % برای این محصول در نظر دارید.
+
+            <br>
+            <br>
+
+            <strong>
+              ضریب (برای پروفیل های Curve) * :
+            </strong>
+            ضریب قیمتی ای که برای این پروفیل سفارشی در نظر دارید چقدر است.
+            توجه داشته باشید که این ضریب برای پروفیل های معمولی باید عدد 1 باشد
+            و برای پروفیل های curve به دلخواه خود می توانید عددی بزرگتر از 1 در نظر بگیرید.
+            توجه کنید که قیمت کل در این عدد ضرب شده و قیمت نهایی بدست می آید.
+
+
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+    <form action="{% url 'cost:custom_kafshoor_profile_price' %}" method="post" class="text-right">
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          {{ form.profile_count|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.profile_length|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.profile_width|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.profile_height|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.adjust_jack_count|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.divider_count|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.divider_width|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.screw_count|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.profit_percent|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.factor|as_crispy_field }}
+        </div>
+
+      </div>
+
+      <div class="mb-5">
+        <input class="btn btn-primary" type="submit" value="محاسبه">
+      </div>
+    </form>
+
+    <hr>
+
+    <div id="scroll-here" class="card col-12 col-md-8 text-center mx-auto mb-5 p-0">
+      <div class="card-header bg-success">
+        نتیجه محاسبه قیمت
+      </div>
+      <div class="card-body">
+
+        {% if error_message %}
+          <h3>
+            {{ error_message }}
+          </h3>
+        {% endif %}
+
+        {% if product %}
+
+          <div class="row">
+            <div class="col-6 h3 text-right">
+              قیمت نهایی (تومان) :
+            </div>
+            <div class="col-6 h3 mb-5">
+              {{ price_with_factor|intcomma:False }}
+            </div>
+            <div class="col-6 h6 text-right">
+              نام :
+            </div>
+            <div class="col-6 h6">
+              {{ product.name }}
+            </div>
+            <div class="col-6 h6 text-right">
+              تعداد تولید در سال :
+            </div>
+            <div class="col-6 h6">
+              {{ product.no_prod_per_year|intcomma:False }}
+            </div>
+            <div class="col-6 h6 text-right">
+              هزینه اجزا (تومان) :
+            </div>
+            <div class="col-6 h6">
+              {{ product.components_cost|intcomma:False }}
+            </div>
+            <div class="col-6 h6 text-right">
+              هزینه جاری (تومان) :
+            </div>
+            <div class="col-6 h6">
+              {{ product.current_expense|intcomma:False }}
+            </div>
+            <div class="col-6 h6 text-right">
+              سود (به درصد) :
+            </div>
+            <div class="col-6 h6">
+              {{ product.profit_percent|intcomma:False }} %
+            </div>
+            <div class="col-6 h6 text-right">
+              قیمت بدون ضریب (تومان) :
+            </div>
+            <div class="col-6 h6">
+              {{ product.final_price|intcomma:False }}
+            </div>
+            <div class="col-6 h6 text-right">
+              قیمت نهایی (تومان) :
+            </div>
+            <div class="col-6 h6">
+              {{ price_with_factor|intcomma:False }}
+            </div>
+          </div>
+
+        {% else %}
+
+          <h2 id="the-message" class="text-center">
+            لطفا فرم را پر نمایید.
+          </h2>
+
+        {% endif %}
+
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}
+
+{% block javascript %}
+  <script>
+    if (document.querySelector('#the-message') === null) {
+      document.getElementById('scroll-here').scrollIntoView({behavior: "smooth"});
+    }
+  </script>
+
+{% endblock %}

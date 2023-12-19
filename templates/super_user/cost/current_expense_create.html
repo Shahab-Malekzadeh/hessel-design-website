@@ -1,0 +1,104 @@
+{% extends 'super_user/shared/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+
+  <div class="col mt-5 pt-5 px-4">
+
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'info' %}info{% elif message.tags == 'success' %}success
+            {% elif message.tags == 'warning' %}warning{% elif message.tags == 'error' %}danger{% endif %}
+          alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if form.errors %}
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>
+            {% for error in form.non_field_errors %}
+              {{ error|escape }}
+            {% endfor %}
+          </strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    <div class="jumbotron py-4">
+      <h2 class="text-center mb-4">
+        فرم هزینه های جاری
+
+        <button class="btn btn-warning mr-auto" type="button"
+                data-toggle="collapse" data-target="#collapse"
+                aria-expanded="false" aria-controls="collapse">
+          راهنما
+        </button>
+      </h2>
+
+      <div class="collapse" id="collapse">
+        <div class="card card-body">
+
+          <p class="lead">
+
+            این فرم برای ایجاد یک هزینه ی جاری جدید یا تغییر
+            هزینه ی جاری است.
+            شما می توانید تمام هزینه های جاری خود در یک سال را
+            در یک رکورد ثبت کنید.
+            مثلا اگر کل هزینه های جاری شما در یک سال 200 میلیون تومان
+            است می توانید یک رکورد به نام کل هزینه های جاری
+            و با هزینه 200،000،000 ایجاد نمایید.
+
+            <br>
+            <br>
+
+            <strong>
+              نام * :
+            </strong>
+            در این قسمت نامی برای این هزینه جاری تعیین کنید.
+
+            <br>
+            <br>
+
+            <strong>
+              هزینه در یک سال * :
+            </strong>
+            برای این هزینه جاری در یک سال چه مبلغی به تومان خرج می کنید.
+
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+    <form action="{% url 'cost:current_expense_create' %}" method="post" class="text-right">
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          {{ form.name|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.cost_in_a_year|as_crispy_field }}
+        </div>
+
+      </div>
+
+      <div class="mb-5">
+        <input class="btn btn-primary" type="submit" value="افزودن">
+      </div>
+    </form>
+
+  </div>
+
+{% endblock %}

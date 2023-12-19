@@ -1,0 +1,175 @@
+{% extends 'super_user/shared/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+
+  <div class="col mt-5 pt-5 px-4">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'info' %}info{% elif message.tags == 'success' %}success
+            {% elif message.tags == 'warning' %}warning{% elif message.tags == 'error' %}danger{% endif %}
+          alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if form.errors %}
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>
+            {% for error in form.non_field_errors %}
+              {{ error|escape }}
+            {% endfor %}
+          </strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    <div class="jumbotron py-4">
+      <h2 class="text-center mb-4">
+        فرم اجزا
+
+        <button class="btn btn-warning mr-auto" type="button"
+                data-toggle="collapse" data-target="#collapse"
+                aria-expanded="false" aria-controls="collapse">
+          راهنما
+        </button>
+      </h2>
+
+      <div class="collapse" id="collapse">
+        <div class="card card-body">
+
+          <p class="lead">
+
+            این فرم برای ایجاد یک جزء جدید یا تغییر یک جزء است.
+
+            <br>
+            <br>
+
+            <strong>
+              تصویر این جزء :
+            </strong>
+            در این قسمت تصویر این جزء محصول خود را انتخاب نمایید.
+            در صورتی که هیچ عکسی انتخاب نکنید یک عکس پیش فرض انتخاب می شود.
+
+            <br>
+            <br>
+
+            <strong>
+              از کدام نوع دسته بندی است :
+            </strong>
+            نوع دسته بندی را که این جزء متعلق به آن است انتخاب کنید.
+
+            <br>
+            <br>
+
+            <strong>
+              برای چه محصولی است :
+            </strong>
+            این جزء برای چه محصولی است. آن را انتخاب کنید.
+
+            <br>
+            <br>
+
+            <strong>
+              نام این جزء* :
+            </strong>
+            در این فیلد نامی برای این جزء انتخاب کنید. بهتر است که
+            نام شما مشخص کند که این جزء برای چه محصولی است.
+            مثلا از نوشتن نام "پیچ" خودداری کنید و نام "پیچ کفشور 10 * 10"
+            را انتخاب کنید.
+
+            <br>
+            <br>
+
+            <strong>
+              چه تعداد از این جزء استفاده می شود * :
+            </strong>
+            در این قسمت مشخص کنید که از این جزء در محصول انتخاب شده
+            به چه تعداد استفاده می شود. مثلا از "پیج" در کفشور 10 * 10
+            به تعداد 4 عدد استفاده می شود.
+
+            <br>
+            <br>
+
+            <strong>
+              برای چه تعداد از محصول انتخاب شده * :
+            </strong>
+            در این قسمت مشخص کنید تعداد جزئی که وارد کردید برای چند
+            تا از محصول انتخاب شده استفاده می شود.
+            مثلا اگر این جزء پیچ باشد، به تعداد 4 عدد در 1 کفشور 10 * 10
+            استفاده می شود. ولی مثلا اگر جزئی که دارید وارد می کنید
+            فلاپی باشد، تعداد 1 عدد فلاپی برای مثلا 25 عدد کفشور استفاده
+            می شود. پس برای فلاپی در فیلد
+            "چه تعداد از این جزء استفاده می شود" عدد 1 و در فیلد
+            "برای چه تعداد از محصول انتخاب شده" عدد 25 را وارد کنید.
+
+            <br>
+            <br>
+
+            <strong>
+              توضیحات :
+            </strong>
+            در این فیلد بنا به دلخواه خود می توانید توضیحاتی
+            برای این جزء وارد نمایید. این فیلد را می توانید
+            خالی هم بگذارید.
+
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+    <form action="{% url 'cost:component_update' pk %}" enctype="multipart/form-data"
+          method="post" class="text-right">
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col-12 col-sm-6 my-3">
+          {{ form.component_image|as_crispy_field }}
+        </div>
+        <div class="col-6"></div>
+        <div class="col-12 col-sm-6">
+          {{ form.category|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.product|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.name|as_crispy_field }}
+        </div>
+        <div class="col-6"></div>
+        <div class="col-12 col-sm-6">
+          {{ form.used_count|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.per_product|as_crispy_field }}
+        </div>
+        <div class="col-12">
+          {{ form.description|as_crispy_field }}
+        </div>
+
+      </div>
+
+      <div class="mb-5">
+        <input class="btn btn-primary" type="submit" value="ویرایش">
+
+        <a href="{% url 'cost:component_delete' pk %}" class="btn btn-danger">
+          حذف
+        </a>
+      </div>
+
+    </form>
+
+  </div>
+
+{% endblock %}

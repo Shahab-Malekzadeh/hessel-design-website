@@ -1,0 +1,98 @@
+{% extends 'super_user/shared/base.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% load humanize %}
+
+{% block content %}
+
+  <div class="col col-10 mt-5 mr-auto mx-sm-auto pt-5 pl-3 pr-4">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'info' %}info{% elif message.tags == 'success' %}success
+            {% elif message.tags == 'warning' %}warning{% elif message.tags == 'error' %}danger{% endif %}
+          alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <h2 class="text-center mb-4">
+      لیست اجزا
+    </h2>
+
+    <div class="text-right my-4">
+      <a href="{% url 'cost:component_create' %}"
+         class="btn btn-success btn-lg">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+        افزودن اجزا
+      </a>
+    </div>
+
+    <div class="table-responsive text-right">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>
+            تصویر
+          </th>
+          <th>
+            نام دسته بندی
+          </th>
+          <th>
+            نام محصول
+          </th>
+          <th>
+            نام
+          </th>
+          <th>
+            توضیحات
+          </th>
+          <th>
+            تعداد استفاده شده
+          </th>
+          <th>
+            برای چه تعداد از محصول انتخاب شده
+          </th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for component in components %}
+          <tr>
+
+            {% if component.component_image %}
+              <td>
+                <img src="{{ component.component_image.url }}" width="100px" alt="">
+              </td>
+            {% else %}
+              <td>
+                <img src="{% static 'base/img/no_img_component.png' %}" width="100px" alt="">
+              </td>
+            {% endif %}
+
+            <td>{{ component.category }}</td>
+            <td>{{ component.product }}</td>
+            <td>{{ component.name }}</td>
+            <td>{{ component.description }}</td>
+            <td>{{ component.used_count|intcomma:False }}</td>
+            <td>{{ component.per_product|intcomma:False }}</td>
+            <td>
+              <a href="{% url 'cost:component_update' component.pk %}" class="btn btn-primary">
+                ویرایش
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+{% endblock %}

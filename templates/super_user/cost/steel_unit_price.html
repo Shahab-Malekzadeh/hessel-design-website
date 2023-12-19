@@ -1,0 +1,134 @@
+{% extends 'super_user/shared/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+
+  <div class="col col-10 mt-5 mr-auto mx-sm-auto pt-5 pl-3 pr-4">
+
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'info' %}info{% elif message.tags == 'success' %}success
+            {% elif message.tags == 'warning' %}warning{% elif message.tags == 'error' %}danger{% endif %}
+          alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+
+    <div class="jumbotron py-4">
+      <h2 class="text-center mb-4">
+        محاسبه قیمت هر میلیمتر مربع ورق استیل
+
+        <button class="btn btn-warning mr-auto" type="button"
+                data-toggle="collapse" data-target="#collapse"
+                aria-expanded="false" aria-controls="collapse">
+          راهنما
+        </button>
+      </h2>
+
+      <div class="collapse" id="collapse">
+        <div class="card card-body">
+
+          <p class="lead">
+
+            این فرم برای محاسبه ی قیمت هر واحد (هر میلی متر مربع) ورق استیل است.
+
+            <br>
+            <br>
+
+            <strong>
+              طول (به میلی متر) * :
+            </strong>
+            طول ورق استیلی را که خریداری می کنید به میلی متر وارد نمایید.
+            برای مثال اگر طول آن 2 متر است عدد 2000 را وارد نمایید.
+
+            <br>
+
+            <strong>
+              عرض (به میلی متر) * :
+            </strong>
+            عرض ورق استیلی را که خریداری می کنید به میلی متر وارد نمایید.
+            برای مثال اگر عرض آن 1 متر است عدد 1000 را وارد نمایید.
+
+            <br>
+            <br>
+
+            <strong>
+              وزن (به کیلوگرم) * :
+            </strong>
+            وزن ورق استیل خریداری شده را وارد نمایید. مثلا اگر هر ورق
+            2 متر در 1 متر 48 کیلوگرم است عدد 48 را در اینجا وارد نمایید.
+
+            <br>
+            <br>
+
+            <strong>
+              قیمت (به ازای هر کیلوگرم) * :
+            </strong>
+            قیمت هر کیلوگرم ورق استیل خریداری شده چند تومان است.
+            آن را در این قسمت وارد کنید.
+
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <form action="{% url 'cost:steel_unit_price' %}" method="post" class="text-right">
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          {{ form.length|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.width|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.weight|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.price_per_kilogram|as_crispy_field }}
+        </div>
+
+      </div>
+
+      <div class="mb-5">
+        <input class="btn btn-primary" type="submit" value="محاسبه">
+      </div>
+    </form>
+
+    <hr>
+
+    <div class="card text-center mb-5">
+      <div class="card-header bg-success">
+        نتیجه
+      </div>
+      <div class="card-body">
+        {% if request.session.cost %}
+          <h3 class="card-title text-center">
+            نتیجه :
+          </h3>
+          <p class="card-text h4 text-center">
+            {{ request.session.cost }}
+          </p>
+          <p class="card-text h4 text-center">
+            تومان قیمت هر میلی متر مربع ورق استیل
+          </p>
+        {% else %}
+          <h3 class="card-title text-center">
+            فرم را پر نمایید!
+          </h3>
+        {% endif %}
+
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}

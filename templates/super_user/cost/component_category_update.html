@@ -1,0 +1,159 @@
+{% extends 'super_user/shared/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+
+  <div class="col mt-5 pt-5 px-4">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'info' %}info{% elif message.tags == 'success' %}success
+            {% elif message.tags == 'warning' %}warning{% elif message.tags == 'error' %}danger{% endif %}
+          alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if form.errors %}
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>
+            {% for error in form.non_field_errors %}
+              {{ error|escape }}
+            {% endfor %}
+          </strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    <div class="jumbotron py-4">
+      <h2 class="text-center mb-4">
+        فرم دسته بندی اجزا
+
+        <button class="btn btn-warning mr-auto" type="button"
+                data-toggle="collapse" data-target="#collapse"
+                aria-expanded="false" aria-controls="collapse">
+          راهنما
+        </button>
+      </h2>
+
+      <div class="collapse" id="collapse">
+        <div class="card card-body">
+
+          <p class="lead">
+
+            این فرم برای اضافه کردن یک دسته بندی اجزاست.
+            برای اینکه یک جزء به اجزای یک محصول (مثلا کفشور) اضافه
+            کنید، باید ابتدا یک دسته بندی اجزا اضافه کنید.
+            <br>
+            مثلا برای اینکه به کفشور، پیچ را اضافه کنید، ابتدا
+            در این صفحه نام دسته بندی خود را وارد می نمایید
+            (مثلا "پیچ") و در قسمت قیمت هر واحد مثلا 150
+            را وارد می کنید و در قسمت توضیحات، به اختیار خودتان برای
+            این پیچ توضیحاتی می نویسید.
+
+            <br>
+            <br>
+
+            <strong>
+              نام دسته بندی * :
+            </strong>
+            نام مورد نظر خود را در اینجا وارد نمایید.
+            برای مثال "پیچ".
+
+            <br>
+
+            <strong>
+              قیمت هر واحد (به تومان) * :
+            </strong>
+            قیمت هر واحد آن را در این قسمت وارد نمایید.
+
+            <br>
+
+            <strong>
+              توضیحات دسته بندی :
+            </strong>
+            در این قسمت بنا به دلخواه خود می توانید
+            توضیحاتی را وارد نمایید.
+
+            <br>
+            <br>
+
+            <strong>
+              توجه :
+            </strong>
+            <br>
+            هر کدام از اجزای تشکیل دهنده ی یک محصول (مثلا کفشور)
+            واحد مخصوص به خودش را دارد.
+            <br>
+            <br>
+            بعضی اجزا واحدشان دانه ای است. (مثل فلاپی و پیچ و فنر
+            و کلید و جوش و قلاویز و کاغذ تبلیغ و نکی و خم)
+            برای این اجزا باید در قسمت (قیمت هر واحد (به تومان) *)
+            قیمت هر دانه ی آن را بنویسید. (مثلا برای فلاپی 25000
+            را وارد نمایید.)
+            <br>
+            <br>
+            بعضی اجزا واحدشان میلی متر مربع است. (مثل ورق استیل و
+            زرورق و حباب دار)
+            برای این اجزا باید در قسمت (قیمت هر واحد (به تومان) *)
+            قیمت هر میلی متر مربع آن را بنویسید. (برای محاسبه ی
+            قیمت هر میلی متر مربع ورق استیل به فرم محاسبه قیمت
+            هر واحد ورق استیل مراجعه کنید.)
+            <br>
+            <br>
+            بعضی اجزا واحدشان میلی متر است. (مثل لوله و لیزر و گاز)
+            برای این اجزا باید در قسمت (قیمت هر واحد (به تومان) *)
+            قیمت هر میلی متر آن را بنویسید. (برای محاسبه ی
+            قیمت هر میلی متر لوله به فرم محاسبه ی قیمت هر واحد
+            لوله مراجعه کنید.)
+            <br>
+            <br>
+            بعضی اجزا هم به ازای هر کفشور قیمت ثابت دارند. (مثل
+            الکتروپلیش و پرس)
+            برای این اجزا هم در قسمت (قیمت هر واحد (به تومان) *)
+            قیمت آن را به ازای هر کفشور وارد نمایید.
+            مثلا برای الکتروپلیش "1000" و برای پرس "3500" را وارد نمایید.
+
+          </p>
+
+        </div>
+      </div>
+
+    </div>
+
+    <form action="{% url 'cost:component_category_update' pk %}" method="post" class="text-right">
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          {{ form.name|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.price|as_crispy_field }}
+        </div>
+        <div class="col-12 col-sm-6">
+          {{ form.description|as_crispy_field }}
+        </div>
+
+      </div>
+
+      <div class="mb-5">
+        <input class="btn btn-primary" type="submit" value="ویرایش">
+
+        <a href="{% url 'cost:component_category_delete' pk %}" class="btn btn-danger">
+          حذف
+        </a>
+      </div>
+    </form>
+
+  </div>
+
+{% endblock %}
